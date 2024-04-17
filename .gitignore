@@ -33,6 +33,7 @@ lint*.txt
 *.bak
 *.qlc
 JLink*.*
+*.DS_Store
 
 tests/
 
