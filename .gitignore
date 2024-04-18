@@ -34,6 +34,9 @@ lint*.txt
 *.qlc
 JLink*.*
 *.DS_Store
+*.Josies
+*.uvoptx
+*.scvd
 
 tests/
 
