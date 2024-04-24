@@ -1,43 +1,74 @@
-#include "tm4c.h"   // the same as "lm4f120h5qr.h" in the video
+#include "tm4c_cmsis.h"  // CMSIS-compatible interface
 #include "delay.h"
+
+#include <stdint.h> // C99 standard integers
+
 #define LED_RED   (1U << 1)
 #define LED_BLUE  (1U << 2)
 #define LED_GREEN (1U << 3)
 
-int *swap(int *x, int *y);
-int *swap(int *x, int *y) {
-	static int tmp[2];
-	tmp[0] = *x;
-	tmp[1] = *y;
-	*x = tmp[1];
-	*y = tmp[0];
-	return tmp;
-}
+typedef struct /* __attribute__((packed)) */ {
+    uint8_t y;
+    uint16_t x;
+} Point;
+
+Point p1, p2;
+
+typedef struct {
+    Point top_left;
+    Point bottom_right;
+} Window;
+
+typedef struct {
+     Point corners[3];
+} Triangle;
+
+Window w, w2;
+Triangle t;
 
 int main(void) {
-		int x = 1000000;
-		int y = 1000000/2;
-    SYSCTL_GPIOHBCTL_R |= (1U << 5); /* enable AHB for GPIOF */
-    SYSCTL_RCGCGPIO_R |= (1U << 5);  /* enable clock for GPIOF */
+    Point *pp;
+    Window *wp;
 
-    GPIO_PORTF_AHB_DIR_R |= (LED_RED | LED_BLUE | LED_GREEN);
-    GPIO_PORTF_AHB_DEN_R |= (LED_RED | LED_BLUE | LED_GREEN);
+    p1.x = sizeof(Point);
+    p1.y = 0xAAU;
 
-    /* start with turning all LEDs off (note the use of array []) */
-    GPIO_PORTF_AHB_DATA_BITS_R[LED_RED | LED_BLUE | LED_GREEN] = 0;
+    w.top_left.x = 1U;
+    w.bottom_right.y = 2U;
 
-    GPIO_PORTF_AHB_DATA_BITS_R[LED_BLUE] = LED_BLUE;
+    t.corners[0].x = 1U;
+    t.corners[2].y = 2U;
+
+    p2 = p1;
+    w2 = w;
+
+    pp = &p1;
+    wp = &w2;
+
+    (*pp).x = 1U;
+
+    (*wp).top_left = *pp;
+
+    pp->x = 1U;
+    wp->top_left = *pp;
+
+    SYSCTL->GPIOHSCTL |= (1U << 5); /* enable AHB for GPIOF */
+    SYSCTL->RCGC2 |= (1U << 5);  /* enable clock for GPIOF */
+
+    GPIOF_AHB->DIR |= (LED_RED | LED_BLUE | LED_GREEN);
+    GPIOF_AHB->DEN |= (LED_RED | LED_BLUE | LED_GREEN);
+
+    /* turn all LEDs off */
+    GPIOF_AHB->DATA_Bits[LED_RED | LED_BLUE | LED_GREEN] = 0U;
+
+    GPIOF_AHB->DATA_Bits[LED_BLUE] = LED_BLUE;
     while (1) {
-				int *p = swap(&x, &y);
-        //*((unsigned long volatile *)(0x40025000 + (LED_RED << 2))) = LED_RED;
-        //*(GPIO_PORTF_DATA_BITS_R + LED_RED) = LED_RED;
-        GPIO_PORTF_AHB_DATA_BITS_R[LED_RED] = LED_RED;
-				
-        delay(p[0]);
+        GPIOF_AHB->DATA_Bits[LED_RED] = LED_RED;
+        delay(500000);
 
-        GPIO_PORTF_AHB_DATA_BITS_R[LED_RED] = 0;
-        delay(p[1]);
+        GPIOF_AHB->DATA_Bits[LED_RED] = 0;
 
+        delay(250000);
     }
     //return 0; // unreachable code
 }
