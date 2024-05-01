@@ -20,7 +20,7 @@ int main(void) {
 int main(void) {
     BSP_init();
     while (1) {
-        /* Blinky polling state machine */
+        /* State machine implementation (Does not block code execution in main) */
         static enum {
             INITIAL,
             OFF_STATE,
@@ -28,10 +28,12 @@ int main(void) {
         } state = INITIAL;
         static uint32_t start;
         switch (state) {
+					// Initialize LED w/ OFF_STATE
             case INITIAL:
                 start = BSP_tickCtr();
                 state = OFF_STATE; /* initial transition */
                 break;
+						// Turn LED on (ON_STATE)
             case OFF_STATE:
                 if ((BSP_tickCtr() - start) > BSP_TICKS_PER_SEC * 3U / 4U) {
                     BSP_ledGreenOn();
@@ -39,6 +41,7 @@ int main(void) {
                     state = ON_STATE; /* state transition */
                 }
                 break;
+						// Turn LED off (OFF_STATE)
             case ON_STATE:
                 if ((BSP_tickCtr() - start) > BSP_TICKS_PER_SEC / 4U) {
                     BSP_ledGreenOff();
