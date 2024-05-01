@@ -14,7 +14,7 @@ static uint32_t volatile l_tickCtr;
 void SysTick_Handler(void) {
     ++l_tickCtr;
 }
-
+// Move all hardware setup to BSP file for potability
 void BSP_init(void) {
     SYSCTL->RCGCGPIO  |= (1U << 5); /* enable Run mode for GPIOF */
     SYSCTL->GPIOHBCTL |= (1U << 5); /* enable AHB for GPIOF */
@@ -26,7 +26,7 @@ void BSP_init(void) {
 
     __enable_irq();
 }
-
+// Mutual Exclusion version of the counter
 uint32_t BSP_tickCtr(void) {
     uint32_t tickCtr;
 
@@ -36,7 +36,7 @@ uint32_t BSP_tickCtr(void) {
 
     return tickCtr;
 }
-
+// Move delay and LED pin manipulation to BSP file for portability
 void BSP_delay(uint32_t ticks) {
     uint32_t start = BSP_tickCtr();
     while ((BSP_tickCtr() - start) < ticks) {
