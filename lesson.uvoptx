@@ -156,18 +156,30 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+<<<<<<< HEAD
           <LineNumber>42</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>12</Address>
+=======
+          <LineNumber>235</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>752</Address>
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
+<<<<<<< HEAD
           <Filename>.\bsp.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\lesson\bsp.c\42</Expression>
+=======
+          <Filename>RTE/Device/TM4C123GH6PM/startup_TM4C123.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\lesson\RTE/Device/TM4C123GH6PM/startup_TM4C123.s\235</Expression>
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
         </Bp>
       </Breakpoint>
       <MemoryWindow1>
@@ -248,8 +260,13 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+<<<<<<< HEAD
       <PathWithFileName>.\bsp.c</PathWithFileName>
       <FilenameWithoutPath>bsp.c</FilenameWithoutPath>
+=======
+      <PathWithFileName>.\delay.c</PathWithFileName>
+      <FilenameWithoutPath>delay.c</FilenameWithoutPath>
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -260,8 +277,13 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+<<<<<<< HEAD
       <PathWithFileName>.\bsp.h</PathWithFileName>
       <FilenameWithoutPath>bsp.h</FilenameWithoutPath>
+=======
+      <PathWithFileName>.\tm4c_cmsis.h</PathWithFileName>
+      <FilenameWithoutPath>tm4c_cmsis.h</FilenameWithoutPath>
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
