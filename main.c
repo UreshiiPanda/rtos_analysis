@@ -1,34 +1,55 @@
-#include "TM4C123GH6PM.h"
+#include <stdint.h> // C99 standard integers
 #include "bsp.h"
 
+#if 0
+/* background code: sequential with blocking version */
 int main(void) {
-    SYSCTL->RCGCGPIO  |= (1U << 5U); /* enable Run mode for GPIOF */
-    SYSCTL->GPIOHBCTL |= (1U << 5U); /* enable AHB for GPIOF */
-
-#if (__ARM_FP != 0) /* if VFP available... */
-    /* make sure that the FPU is enabled by seting CP10 & CP11 Full Access */
-    SCB->CPACR |= ((3UL << 20U)|(3UL << 22U));
-#endif
-
-    GPIOF_AHB->DIR |= (LED_RED | LED_BLUE | LED_GREEN);
-    GPIOF_AHB->DEN |= (LED_RED | LED_BLUE | LED_GREEN);
-
-    SysTick->LOAD = SYS_CLOCK_HZ/2U - 1U;
-    SysTick->VAL  = 0U;
-    SysTick->CTRL = (1U << 2U) | (1U << 1U) | 1U;
-
-    SysTick_Handler();
-
-    __enable_irq();
+    BSP_init();
     while (1) {
-        GPIOF_AHB->DATA_Bits[LED_GREEN] = LED_GREEN;
-        GPIOF_AHB->DATA_Bits[LED_GREEN] = 0U;
-
-#if (__ARM_FP != 0) /* if VFP available... */
-        /* exercise the single-precision FPU */
-        float x = 1.234f;
-        float volatile y = x*x;
-#endif
+        BSP_ledGreenOn();
+        BSP_delay(BSP_TICKS_PER_SEC / 4U);
+        BSP_ledGreenOff();
+        BSP_delay(BSP_TICKS_PER_SEC * 3U / 4U);
     }
-    //return 0; // unreachable code
+
+    //return 0;
+}
+#endif
+
+/* background code: non-blocking version */
+int main(void) {
+    BSP_init();
+    while (1) {
+        /* Blinky polling state machine */
+        static enum {
+            INITIAL,
+            OFF_STATE,
+            ON_STATE
+        } state = INITIAL;
+        static uint32_t start;
+        switch (state) {
+            case INITIAL:
+                start = BSP_tickCtr();
+                state = OFF_STATE; /* initial transition */
+                break;
+            case OFF_STATE:
+                if ((BSP_tickCtr() - start) > BSP_TICKS_PER_SEC * 3U / 4U) {
+                    BSP_ledGreenOn();
+                    start = BSP_tickCtr();
+                    state = ON_STATE; /* state transition */
+                }
+                break;
+            case ON_STATE:
+                if ((BSP_tickCtr() - start) > BSP_TICKS_PER_SEC / 4U) {
+                    BSP_ledGreenOff();
+                    start = BSP_tickCtr();
+                    state = OFF_STATE; /* state transition */
+                }
+                break;
+            default:
+                //error();
+                break;
+        }
+    }
+    //return 0;
 }
