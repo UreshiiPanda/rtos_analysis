@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+#include <stdint.h> // C99 standard integers
+#include "bsp.h"
+=======
 #include "tm4c_cmsis.h"  // CMSIS-compatible interface
 #include "delay.h"
 
@@ -25,8 +29,19 @@ typedef struct {
 
 Window w, w2;
 Triangle t;
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
 
+#if 0
+/* background code: sequential with blocking version */
 int main(void) {
+<<<<<<< HEAD
+    BSP_init();
+    while (1) {
+        BSP_ledGreenOn();
+        BSP_delay(BSP_TICKS_PER_SEC / 4U);
+        BSP_ledGreenOff();
+        BSP_delay(BSP_TICKS_PER_SEC * 3U / 4U);
+=======
     Point *pp;
     Window *wp;
 
@@ -69,6 +84,47 @@ int main(void) {
         GPIOF_AHB->DATA_Bits[LED_RED] = 0;
 
         delay(250000);
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
     }
-    //return 0; // unreachable code
+
+    //return 0;
+}
+#endif
+
+/* background code: non-blocking version */
+int main(void) {
+    BSP_init();
+    while (1) {
+        /* Blinky polling state machine */
+        static enum {
+            INITIAL,
+            OFF_STATE,
+            ON_STATE
+        } state = INITIAL;
+        static uint32_t start;
+        switch (state) {
+            case INITIAL:
+                start = BSP_tickCtr();
+                state = OFF_STATE; /* initial transition */
+                break;
+            case OFF_STATE:
+                if ((BSP_tickCtr() - start) > BSP_TICKS_PER_SEC * 3U / 4U) {
+                    BSP_ledGreenOn();
+                    start = BSP_tickCtr();
+                    state = ON_STATE; /* state transition */
+                }
+                break;
+            case ON_STATE:
+                if ((BSP_tickCtr() - start) > BSP_TICKS_PER_SEC / 4U) {
+                    BSP_ledGreenOff();
+                    start = BSP_tickCtr();
+                    state = OFF_STATE; /* state transition */
+                }
+                break;
+            default:
+                //error();
+                break;
+        }
+    }
+    //return 0;
 }

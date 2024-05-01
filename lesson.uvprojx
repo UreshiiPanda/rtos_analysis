@@ -340,7 +340,7 @@
               <MiscControls>-Wno-declaration-after-statement</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..\ek-tm4c123gxl;..\CMSIS\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -356,7 +356,7 @@
             <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>Stack_Size=2048,Heap_Size=0</Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
             </VariousControls>
@@ -390,22 +390,86 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
+<<<<<<< HEAD
+              <FileName>bsp.c</FileName>
+=======
               <FileName>delay.c</FileName>
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
               <FileType>1</FileType>
-              <FilePath>.\delay.c</FilePath>
+              <FilePath>.\bsp.c</FilePath>
             </File>
             <File>
+<<<<<<< HEAD
+              <FileName>bsp.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\bsp.h</FilePath>
+=======
               <FileName>tm4c_cmsis.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\tm4c_cmsis.h</FilePath>
+>>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>::CMSIS</GroupName>
+          <GroupName>ek-tm4c123gxl</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_TM4C123GH6PM.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\ek-tm4c123gxl\arm\startup_TM4C123GH6PM.s</FilePath>
+            </File>
+            <File>
+              <FileName>README.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\ek-tm4c123gxl\README.txt</FilePath>
+            </File>
+            <File>
+              <FileName>system_TM4C123GH6PM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ek-tm4c123gxl\system_TM4C123GH6PM.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_TM4C123GH6PM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\ek-tm4c123gxl\system_TM4C123GH6PM.h</FilePath>
+            </File>
+            <File>
+              <FileName>TM4C123GH6PM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\ek-tm4c123gxl\TM4C123GH6PM.h</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
-          <GroupName>::Device</GroupName>
+          <GroupName>CMSIS</GroupName>
+          <Files>
+            <File>
+              <FileName>cmsis_armclang.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CMSIS\Include\cmsis_armclang.h</FilePath>
+            </File>
+            <File>
+              <FileName>cmsis_compiler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CMSIS\Include\cmsis_compiler.h</FilePath>
+            </File>
+            <File>
+              <FileName>cmsis_version.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CMSIS\Include\cmsis_version.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm4.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CMSIS\Include\core_cm4.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu_armv7.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CMSIS\Include\mpu_armv7.h</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>
@@ -413,36 +477,19 @@
 
   <RTE>
     <apis/>
-    <components>
-      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.6.0" condition="ARMv6_7_8-M Device">
-        <package name="CMSIS" schemaVersion="1.7.7" url="http://www.keil.com/pack/" vendor="ARM" version="5.9.0"/>
-        <targetInfos>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.1" condition="TM4C123x CMSIS">
-        <package name="TM4C_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.1.0"/>
-        <targetInfos>
-          <targetInfo name="Debug"/>
-        </targetInfos>
-      </component>
-    </components>
+    <components/>
     <files>
       <file attr="config" category="source" condition="Compiler ARMCC" name="Device\Source\ARM\startup_TM4C123.s" version="1.0.0">
-        <instance index="0">RTE\Device\TM4C123GH6PM\startup_TM4C123.s</instance>
+        <instance index="0" removed="1">RTE\Device\TM4C123GH6PM\startup_TM4C123.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.1" condition="TM4C123x CMSIS"/>
         <package name="TM4C_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.1.0"/>
-        <targetInfos>
-          <targetInfo name="Debug"/>
-        </targetInfos>
+        <targetInfos/>
       </file>
       <file attr="config" category="source" name="Device\Source\system_TM4C123.c" version="1.0.1">
-        <instance index="0">RTE\Device\TM4C123GH6PM\system_TM4C123.c</instance>
+        <instance index="0" removed="1">RTE\Device\TM4C123GH6PM\system_TM4C123.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.1" condition="TM4C123x CMSIS"/>
         <package name="TM4C_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.1.0"/>
-        <targetInfos>
-          <targetInfo name="Debug"/>
-        </targetInfos>
+        <targetInfos/>
       </file>
     </files>
   </RTE>
