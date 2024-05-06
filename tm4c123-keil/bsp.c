@@ -2,6 +2,7 @@
 #include <stdint.h>  /* Standard integers. WG14/N843 C99 Standard */
 
 #include "bsp.h"
+#include "miros.h"
 #include "TM4C123GH6PM.h" /* the TM4C MCU Peripheral Access Layer (TI) */
 
 /* on-board LEDs */
@@ -13,8 +14,12 @@ static uint32_t volatile l_tickCtr;
 
 void SysTick_Handler(void) {
     ++l_tickCtr;
+	
+		__disable_irq();
+		OS_sched();
+	  __enable_irq();
 }
-// Move all hardware setup to BSP file for potability
+
 void BSP_init(void) {
     SYSCTL->RCGCGPIO  |= (1U << 5); /* enable Run mode for GPIOF */
     SYSCTL->GPIOHBCTL |= (1U << 5); /* enable AHB for GPIOF */
@@ -24,9 +29,12 @@ void BSP_init(void) {
     SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / BSP_TICKS_PER_SEC);
 
+		/* set the SysTick interrupt priority (highest) */
+		NVIC_SetPriority(SysTick_IRQn, 0U);
+	
     __enable_irq();
 }
-// Mutual Exclusion version of the counter
+
 uint32_t BSP_tickCtr(void) {
     uint32_t tickCtr;
 
@@ -36,7 +44,7 @@ uint32_t BSP_tickCtr(void) {
 
     return tickCtr;
 }
-// Move delay and LED pin manipulation to BSP file for portability
+
 void BSP_delay(uint32_t ticks) {
     uint32_t start = BSP_tickCtr();
     while ((BSP_tickCtr() - start) < ticks) {
