@@ -4,4 +4,4 @@
   C:\modern-embedded-programming-course-main\TM4C123G-RTOS\CMSIS\Include\cmsis_compiler.h \
   C:\modern-embedded-programming-course-main\TM4C123G-RTOS\CMSIS\Include\cmsis_armclang.h \
   C:\modern-embedded-programming-course-main\TM4C123G-RTOS\CMSIS\Include\mpu_armv7.h \
-  ..\ek-tm4c123gxl\system_TM4C123GH6PM.h
+  ..\ek-tm4c123gxl\system_TM4C123GH6PM.h qassert.h

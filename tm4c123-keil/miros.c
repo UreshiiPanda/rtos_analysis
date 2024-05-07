@@ -1,20 +1,93 @@
 #include <stdint.h>
 #include "miros.h"
 #include "TM4C123GH6PM.h" /* the TM4C MCU Peripheral Access Layer (TI) */
+#include "qassert.h"
 
-OSThread * volatile OS_curr; 
-OSThread * volatile OS_next;
-void OS_init(void) {
+Q_DEFINE_THIS_FILE
+
+OSThread * volatile OS_curr; // Pointer to the current thread
+OSThread * volatile OS_next; // Pointer to the next thread
+
+OSThread *OS_thread[32 + 1]; // array of threads started so far
+uint8_t OS_threadNum; // number of threads started so far
+uint8_t OS_currIdx; // current thread index for round robin
+uint32_t OS_readySet; // bitmask of threads that are ready to run
+
+OSThread idleThread;
+void main_idleThread() {
+    while (1) {
+        OS_onIdle();
+    }
+}
+
+void OS_init(void *stkSto, uint32_t stkSize) {
 	/* set the PendSV interrupt priority to the lowest level */
 	*(uint32_t volatile *)0xE000ED20 |= (0xFFU << 16);
+	
+	/* start idle thread */
+	OSThread_start(&idleThread,
+								 &main_idleThread,
+							   stkSto, stkSize);
 }
 
 void OS_sched(void){
-	// OS_next = ...
-	if (OS_next != OS_curr) {
+	/* OS_next = ... */
+	if (OS_readySet == 0U) {
+		OS_currIdx = 0U;
+	}
+	else {
+		do {
+			++OS_currIdx;
+			if(OS_currIdx == OS_threadNum) {
+				OS_currIdx = 1U;
+			}
+		} while ((OS_readySet & (1U << (OS_currIdx - 1U))) == 0U);
+		
+	}
+	OS_next = OS_thread[OS_currIdx];
+	if (OS_next != OS_curr){
 		*(uint32_t volatile *)0xE000ED04 = (1U << 28);
 	}
 }
+
+
+
+void OS_run(void) {
+	/* callback to configure and start interrupts */
+	OS_onStartup();
+	
+	__asm volatile ("cpsid i");
+    OS_sched();
+    __asm volatile ("cpsie i");
+	
+	/* The following should never execute */
+	Q_ERROR();
+}
+
+void OS_tick(void) {
+	uint8_t n;
+	for(n = 1U; n < OS_threadNum; ++n) {
+		if (OS_thread[n]->timeout != 0U){
+			--OS_thread[n]->timeout;
+			if (OS_thread[n]->timeout == 0U){
+				OS_readySet |= (1U << (n - 1U));
+			}
+		}
+	}
+}
+
+void OS_delay(uint32_t ticks) {
+    __asm volatile ("cpsid i");
+
+    /* never call OS_delay from the idleThread */
+    Q_REQUIRE(OS_curr != OS_thread[0]);
+
+    OS_curr->timeout = ticks;
+    OS_readySet &= ~(1U << (OS_currIdx - 1U));
+    OS_sched();
+    __asm volatile ("cpsie i");
+}
+
 
 void OSThread_start(
 	OSThread *me,
@@ -46,9 +119,21 @@ void OSThread_start(
 		me->sp = sp;
 		/* round up the bottom of the stack to the 8-byte boundary */
 		stk_limit = (uint32_t *)(((((uint32_t)stkSto - 1U) /8) + 1U) * 8);
+		
+		/* pre-fill the unused part of the stack with 0xDEADBEEF */
 		for (sp = sp - 1U; sp >= stk_limit; --sp) {
 			*sp = 0xDEADBEEFU;
 		}
+	
+		Q_ASSERT(OS_threadNum < Q_DIM(OS_thread));
+
+    /* register the thread with the OS */
+    OS_thread[OS_threadNum] = me;
+		/* make the thread ready to run */
+		if (OS_threadNum > 0U) {
+			OS_readySet |= (1U << (OS_threadNum - 1U));
+		}
+		++OS_threadNum;
 	}
 	
 /* inline assembly syntax for Compiler 6 (ARMCLANG) */

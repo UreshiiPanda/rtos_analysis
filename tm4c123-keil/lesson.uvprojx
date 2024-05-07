@@ -340,7 +340,7 @@
               <MiscControls>-Wno-declaration-after-statement</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\ek-tm4c123gxl;..\CMSIS\Include</IncludePath>
+              <IncludePath>..\ek-tm4c123gxl;..\CMSIS\Include;..\qpc\Include;..\qpc\src;..\qpc\3rd_party</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
