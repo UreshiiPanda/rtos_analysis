@@ -2,8 +2,7 @@
 #include <stdint.h>  /* Standard integers. WG14/N843 C99 Standard */
 
 #include "bsp.h"
-#include "miros.h"
-#include "qassert.h"
+#include "joertos.h"
 #include "TM4C123GH6PM.h" /* the TM4C MCU Peripheral Access Layer (TI) */
 
 /* on-board LEDs */
@@ -15,39 +14,21 @@
 static uint32_t volatile l_tickCtr;
 
 void SysTick_Handler(void) {
-    GPIOF_AHB->DATA_Bits[TEST_PIN] = TEST_PIN;
-
-    ++l_tickCtr;
-
-    __disable_irq();
-    OS_sched();
-    __enable_irq();
-
-    GPIOF_AHB->DATA_Bits[TEST_PIN] = 0U;
+		GPIOF_AHB->DATA_Bits[TEST_PIN] = TEST_PIN;
+    OS_tick();
+	
+		__disable_irq();
+		OS_sched();
+	  __enable_irq();
+	
+	GPIOF_AHB->DATA_Bits[TEST_PIN] = 0U;
 }
 
 void BSP_init(void) {
+    SYSCTL->RCGCGPIO  |= (1U << 5); /* enable Run mode for GPIOF */
     SYSCTL->GPIOHBCTL |= (1U << 5); /* enable AHB for GPIOF */
-    SYSCTL->RCGCGPIO  |= (1U << 5); /* enable Run Mode for GPIOF */
-
     GPIOF_AHB->DIR |= (LED_RED | LED_BLUE | LED_GREEN | TEST_PIN);
     GPIOF_AHB->DEN |= (LED_RED | LED_BLUE | LED_GREEN | TEST_PIN);
-}
-
-uint32_t BSP_tickCtr(void) {
-    uint32_t tickCtr;
-
-    __disable_irq();
-    tickCtr = l_tickCtr;
-    __enable_irq();
-
-    return tickCtr;
-}
-
-void BSP_delay(uint32_t ticks) {
-    uint32_t start = BSP_tickCtr();
-    while ((BSP_tickCtr() - start) < ticks) {
-    }
 }
 
 void BSP_ledRedOn(void) {
@@ -75,11 +56,17 @@ void BSP_ledGreenOff(void) {
 }
 
 void OS_onStartup(void) {
-    SystemCoreClockUpdate();
+		SystemCoreClockUpdate();
     SysTick_Config(SystemCoreClock / BSP_TICKS_PER_SEC);
 
-    /* set the SysTick interrupt priority (highest) */
-    NVIC_SetPriority(SysTick_IRQn, 0U);
+		/* set the SysTick interrupt priority (highest) */
+		NVIC_SetPriority(SysTick_IRQn, 0U);
+}
+
+void OS_onIdle(void) {
+	GPIOF_AHB->DATA_Bits[LED_RED] = LED_RED;
+	GPIOF_AHB->DATA_Bits[LED_RED] = 0U;
+	// __WFI(); /* stop  */
 }
 
 //............................................................................
