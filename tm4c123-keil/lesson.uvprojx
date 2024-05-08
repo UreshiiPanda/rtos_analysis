@@ -340,7 +340,7 @@
               <MiscControls>-Wno-declaration-after-statement</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\ek-tm4c123gxl;..\CMSIS\Include;..\qpc\Include;..\qpc\src;..\qpc\3rd_party</IncludePath>
+              <IncludePath>..\ek-tm4c123gxl;..\CMSIS\Include;..\qpc\Include;..\qpc\src;..\qpc\3rd_party;..\qpc\ports\arm-cm\qxk\armclang</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -462,17 +462,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>MiROS</GroupName>
+          <GroupName>JoeRTOS</GroupName>
           <Files>
             <File>
-              <FileName>miros.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\miros.h</FilePath>
+              <FileName>joertos.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\joertos.c</FilePath>
             </File>
             <File>
-              <FileName>miros.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\miros.c</FilePath>
+              <FileName>joertos.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\joertos.h</FilePath>
             </File>
           </Files>
         </Group>

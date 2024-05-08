@@ -2,7 +2,7 @@
 #include <stdint.h>  /* Standard integers. WG14/N843 C99 Standard */
 
 #include "bsp.h"
-#include "miros.h"
+#include "joertos.h"
 #include "TM4C123GH6PM.h" /* the TM4C MCU Peripheral Access Layer (TI) */
 
 /* on-board LEDs */
@@ -66,6 +66,7 @@ void OS_onStartup(void) {
 void OS_onIdle(void) {
 	GPIOF_AHB->DATA_Bits[LED_RED] = LED_RED;
 	GPIOF_AHB->DATA_Bits[LED_RED] = 0U;
+	// __WFI(); /* stop  */
 }
 
 //............................................................................

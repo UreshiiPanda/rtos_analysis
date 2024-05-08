@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\lesson.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lesson.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Tue May  7 00:40:35 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Tue May  7 22:36:39 2024
 <BR><P>
-<H3>Maximum Stack Usage =         72 bytes + Unknown(Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =         80 bytes + Unknown(Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; OS_init &rArr; OSThread_start &rArr; Q_onAssert
 <P>
@@ -82,7 +82,7 @@ Function Pointers
  <LI><a href="#[16]">PWMGen1_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
  <LI><a href="#[17]">PWMGen2_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
  <LI><a href="#[37]">PWMGen3_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
- <LI><a href="#[9]">PendSV_Handler</a> from miros.o(.text.PendSV_Handler) referenced 2 times from startup_tm4c123gh6pm.o(RESET)
+ <LI><a href="#[9]">PendSV_Handler</a> from joertos.o(.text.PendSV_Handler) referenced 2 times from startup_tm4c123gh6pm.o(RESET)
  <LI><a href="#[18]">QEI0_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
  <LI><a href="#[31]">QEI1_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
  <LI><a href="#[5f]">QEI2_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
@@ -134,7 +134,7 @@ Function Pointers
  <LI><a href="#[79]">assert_failed</a> from bsp.o(.text.assert_failed) referenced from startup_tm4c123gh6pm.o(.text)
  <LI><a href="#[7b]">main_blinky1</a> from main.o(.text.main_blinky1) referenced 2 times from main.o(.text.main)
  <LI><a href="#[7c]">main_blinky2</a> from main.o(.text.main_blinky2) referenced 2 times from main.o(.text.main)
- <LI><a href="#[7a]">main_idleThread</a> from miros.o(.text.main_idleThread) referenced 2 times from miros.o(.text.OS_init)
+ <LI><a href="#[7a]">main_idleThread</a> from joertos.o(.text.main_idleThread) referenced 2 times from joertos.o(.text.OS_init)
  <LI><a href="#[39]">uDMAError_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
  <LI><a href="#[38]">uDMAST_IRQHandler</a> from startup_tm4c123gh6pm.o(.text) referenced from startup_tm4c123gh6pm.o(RESET)
 </UL>
@@ -259,7 +259,7 @@ Global Symbols
 <P><STRONG><a name="[c4]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[87]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 80 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; OS_init &rArr; OSThread_start &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;exit
@@ -696,7 +696,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main_blinky1
 </UL>
 
-<P><STRONG><a name="[91]"></a>OSThread_start</STRONG> (Thumb, 390 bytes, Stack size 32 bytes, miros.o(.text.OSThread_start))
+<P><STRONG><a name="[91]"></a>OSThread_start</STRONG> (Thumb, 394 bytes, Stack size 32 bytes, joertos.o(.text.OSThread_start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = OSThread_start &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Q_onAssert
@@ -705,8 +705,8 @@ Global Symbols
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[93]"></a>OS_delay</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, miros.o(.text.OS_delay))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OS_delay &rArr; Q_onAssert
+<P><STRONG><a name="[93]"></a>OS_delay</STRONG> (Thumb, 118 bytes, Stack size 16 bytes, joertos.o(.text.OS_delay))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = OS_delay &rArr; OS_sched &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Q_onAssert
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_sched
@@ -715,8 +715,8 @@ Global Symbols
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main_blinky1
 </UL>
 
-<P><STRONG><a name="[95]"></a>OS_init</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, miros.o(.text.OS_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = OS_init &rArr; OSThread_start &rArr; Q_onAssert
+<P><STRONG><a name="[95]"></a>OS_init</STRONG> (Thumb, 58 bytes, Stack size 24 bytes, joertos.o(.text.OS_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = OS_init &rArr; OSThread_start &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OSThread_start
 </UL>
@@ -737,7 +737,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_run
 </UL>
 
-<P><STRONG><a name="[9a]"></a>OS_run</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, miros.o(.text.OS_run))
+<P><STRONG><a name="[9a]"></a>OS_run</STRONG> (Thumb, 28 bytes, Stack size 8 bytes, joertos.o(.text.OS_run))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = OS_run &rArr; OS_onStartup &rArr; SystemCoreClockUpdate &rArr; getOscClk
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Q_onAssert
@@ -747,32 +747,40 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[94]"></a>OS_sched</STRONG> (Thumb, 180 bytes, Stack size 0 bytes, miros.o(.text.OS_sched))
-<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
+<P><STRONG><a name="[94]"></a>OS_sched</STRONG> (Thumb, 138 bytes, Stack size 16 bytes, joertos.o(.text.OS_sched))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = OS_sched &rArr; Q_onAssert
+</UL>
+<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Q_onAssert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_run
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_delay
 </UL>
 
-<P><STRONG><a name="[9b]"></a>OS_tick</STRONG> (Thumb, 136 bytes, Stack size 4 bytes, miros.o(.text.OS_tick))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = OS_tick
+<P><STRONG><a name="[9b]"></a>OS_tick</STRONG> (Thumb, 156 bytes, Stack size 24 bytes, joertos.o(.text.OS_tick))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = OS_tick &rArr; Q_onAssert
+</UL>
+<BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Q_onAssert
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[9]"></a>PendSV_Handler</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, miros.o(.text.PendSV_Handler))
+<P><STRONG><a name="[9]"></a>PendSV_Handler</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, joertos.o(.text.PendSV_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_tm4c123gh6pm.o(RESET)
 </UL>
 <P><STRONG><a name="[92]"></a>Q_onAssert</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, bsp.o(.text.Q_onAssert))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Q_onAssert
 </UL>
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;assert_failed
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_sched
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_tick
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_run
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OSThread_start
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_delay
 </UL>
 
 <P><STRONG><a name="[a]"></a>SysTick_Handler</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, bsp.o(.text.SysTick_Handler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SysTick_Handler &rArr; OS_tick
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = SysTick_Handler &rArr; OS_tick &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_sched
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_tick
@@ -799,8 +807,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_tm4c123gh6pm.o(.text)
 </UL>
-<P><STRONG><a name="[88]"></a>main</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = main &rArr; OS_init &rArr; OSThread_start &rArr; Q_onAssert
+<P><STRONG><a name="[88]"></a>main</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = main &rArr; OS_init &rArr; OSThread_start &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_run
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OSThread_start
@@ -810,17 +818,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[7b]"></a>main_blinky1</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, main.o(.text.main_blinky1))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = main_blinky1 &rArr; OS_delay &rArr; Q_onAssert
+<P><STRONG><a name="[7b]"></a>main_blinky1</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, main.o(.text.main_blinky1))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = main_blinky1 &rArr; OS_delay &rArr; OS_sched &rArr; Q_onAssert
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BSP_ledGreenOff
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_delay
+<BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_delay
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BSP_ledGreenOff
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BSP_ledGreenOn
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text.main)
 </UL>
-<P><STRONG><a name="[7c]"></a>main_blinky2</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, main.o(.text.main_blinky2))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = main_blinky2 &rArr; OS_delay &rArr; Q_onAssert
+<P><STRONG><a name="[7c]"></a>main_blinky2</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, main.o(.text.main_blinky2))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = main_blinky2 &rArr; OS_delay &rArr; OS_sched &rArr; Q_onAssert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BSP_ledBlueOff
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BSP_ledBlueOn
@@ -828,12 +836,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text.main)
 </UL>
-<P><STRONG><a name="[7a]"></a>main_idleThread</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, miros.o(.text.main_idleThread))
+<P><STRONG><a name="[7a]"></a>main_idleThread</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, joertos.o(.text.main_idleThread))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = main_idleThread
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_onIdle
 </UL>
-<BR>[Address Reference Count : 1]<UL><LI> miros.o(.text.OS_init)
+<BR>[Address Reference Count : 1]<UL><LI> joertos.o(.text.OS_init)
 </UL>
 <P><STRONG><a name="[82]"></a>_fp_init</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_fp_1

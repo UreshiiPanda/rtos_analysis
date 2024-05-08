@@ -152,7 +152,24 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0TM4C123_256 -FS00 -FL040000 -FP0($$Device:TM4C123GH6PM$Flash\TM4C123_256.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>43</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2370</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>C:\modern-embedded-programming-course-main\TM4C123G-RTOS\tm4c123-keil\miros.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\lesson\miros.c\43</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -399,7 +416,7 @@
   </Group>
 
   <Group>
-    <GroupName>MiROS</GroupName>
+    <GroupName>JoeRTOS</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -407,24 +424,24 @@
     <File>
       <GroupNumber>4</GroupNumber>
       <FileNumber>14</FileNumber>
-      <FileType>5</FileType>
+      <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\miros.h</PathWithFileName>
-      <FilenameWithoutPath>miros.h</FilenameWithoutPath>
+      <PathWithFileName>.\joertos.c</PathWithFileName>
+      <FilenameWithoutPath>joertos.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>4</GroupNumber>
       <FileNumber>15</FileNumber>
-      <FileType>1</FileType>
+      <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\miros.c</PathWithFileName>
-      <FilenameWithoutPath>miros.c</FilenameWithoutPath>
+      <PathWithFileName>.\joertos.h</PathWithFileName>
+      <FilenameWithoutPath>joertos.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

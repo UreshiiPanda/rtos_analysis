@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "miros.h"
+#include "joertos.h"
 #include "TM4C123GH6PM.h" /* the TM4C MCU Peripheral Access Layer (TI) */
 #include "qassert.h"
 
@@ -9,9 +9,10 @@ OSThread * volatile OS_curr; // Pointer to the current thread
 OSThread * volatile OS_next; // Pointer to the next thread
 
 OSThread *OS_thread[32 + 1]; // array of threads started so far
-uint8_t OS_threadNum; // number of threads started so far
-uint8_t OS_currIdx; // current thread index for round robin
 uint32_t OS_readySet; // bitmask of threads that are ready to run
+uint32_t OS_delayedSet; // bitmask of threads that are delayed
+
+#define LOG2(x) (32U - __builtin_clz(x))
 
 OSThread idleThread;
 void main_idleThread() {
@@ -26,26 +27,24 @@ void OS_init(void *stkSto, uint32_t stkSize) {
 	
 	/* start idle thread */
 	OSThread_start(&idleThread,
+								 0U, /* idle thread priority */
 								 &main_idleThread,
 							   stkSto, stkSize);
 }
 
 void OS_sched(void){
-	/* OS_next = ... */
-	if (OS_readySet == 0U) {
-		OS_currIdx = 0U;
+	/* choose next thread to execute */
+	OSThread *next;
+	if (OS_readySet == 0U) { /* idle condition? */
+		next = OS_thread[0]; /* the idle thread */
 	}
 	else {
-		do {
-			++OS_currIdx;
-			if(OS_currIdx == OS_threadNum) {
-				OS_currIdx = 1U;
-			}
-		} while ((OS_readySet & (1U << (OS_currIdx - 1U))) == 0U);
-		
+		next = OS_thread[LOG2(OS_readySet)];
+		Q_ASSERT(next != (OSThread *)0);
 	}
-	OS_next = OS_thread[OS_currIdx];
-	if (OS_next != OS_curr){
+	/* trigger PendSV, if needed */
+	if (next != OS_curr){
+		OS_next = next;
 		*(uint32_t volatile *)0xE000ED04 = (1U << 28);
 	}
 }
@@ -57,45 +56,58 @@ void OS_run(void) {
 	OS_onStartup();
 	
 	__asm volatile ("cpsid i");
-    OS_sched();
-    __asm volatile ("cpsie i");
+	OS_sched();
+	__asm volatile ("cpsie i");
 	
 	/* The following should never execute */
 	Q_ERROR();
 }
 
 void OS_tick(void) {
-	uint8_t n;
-	for(n = 1U; n < OS_threadNum; ++n) {
-		if (OS_thread[n]->timeout != 0U){
-			--OS_thread[n]->timeout;
-			if (OS_thread[n]->timeout == 0U){
-				OS_readySet |= (1U << (n - 1U));
-			}
-		}
-	}
+	uint32_t workingSet = OS_delayedSet;
+    while (workingSet != 0U) {
+        OSThread *t = OS_thread[LOG2(workingSet)];
+        uint32_t bit;
+        Q_ASSERT((t != (OSThread *)0) && (t->timeout != 0U));
+
+        bit = (1U << (t->prio - 1U));
+        --t->timeout;
+        if (t->timeout == 0U) {
+            OS_readySet   |= bit;  /* insert to set */
+            OS_delayedSet &= ~bit; /* remove from set */
+        }
+        workingSet &= ~bit; /* remove from working set */
+    }
 }
 
 void OS_delay(uint32_t ticks) {
+    uint32_t bit;
     __asm volatile ("cpsid i");
 
     /* never call OS_delay from the idleThread */
     Q_REQUIRE(OS_curr != OS_thread[0]);
 
     OS_curr->timeout = ticks;
-    OS_readySet &= ~(1U << (OS_currIdx - 1U));
+    bit = (1U << (OS_curr->prio - 1U));
+    OS_readySet &= ~bit;
+    OS_delayedSet |= bit;
     OS_sched();
     __asm volatile ("cpsie i");
 }
 
-
 void OSThread_start(
 	OSThread *me,
+	uint8_t  prio, /* thread priority */
 	OSThreadHandler threadHandler,
 	void *stkSto, uint32_t stkSize)
 	{
 		uint32_t *sp = (uint32_t *)((((uint32_t)stkSto + stkSize) / 8) * 8);
 		uint32_t *stk_limit;
+		
+		/* priority must be in range and the priority level must be unused */
+		Q_REQUIRE((prio < Q_DIM(OS_thread))
+							&& (OS_thread[prio] == (OSThread *)0));
+		
 		/* fabricate Cortex-M ISR stack frame for blinky1 */
     *(--sp) = (1U << 24);  /* xPSR */
     *(--sp) = (uint32_t)threadHandler; /* PC */
@@ -124,16 +136,14 @@ void OSThread_start(
 		for (sp = sp - 1U; sp >= stk_limit; --sp) {
 			*sp = 0xDEADBEEFU;
 		}
-	
-		Q_ASSERT(OS_threadNum < Q_DIM(OS_thread));
 
     /* register the thread with the OS */
-    OS_thread[OS_threadNum] = me;
+    OS_thread[prio] = me;
+		me->prio = prio;
 		/* make the thread ready to run */
-		if (OS_threadNum > 0U) {
-			OS_readySet |= (1U << (OS_threadNum - 1U));
+		if (prio > 0U) {
+			OS_readySet |= (1U << (prio - 1U));
 		}
-		++OS_threadNum;
 	}
 	
 /* inline assembly syntax for Compiler 6 (ARMCLANG) */
