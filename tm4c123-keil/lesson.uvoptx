@@ -156,37 +156,37 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-<<<<<<< HEAD
-          <LineNumber>42</LineNumber>
+          <LineNumber>43</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>12</Address>
-=======
-          <LineNumber>235</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>752</Address>
->>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
+          <Address>2370</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-<<<<<<< HEAD
-          <Filename>.\bsp.c</Filename>
+          <Filename>C:\modern-embedded-programming-course-main\TM4C123G-RTOS\tm4c123-keil\miros.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\lesson\bsp.c\42</Expression>
-=======
-          <Filename>RTE/Device/TM4C123GH6PM/startup_TM4C123.s</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\lesson\RTE/Device/TM4C123GH6PM/startup_TM4C123.s\235</Expression>
->>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
+          <Expression>\\lesson\miros.c\43</Expression>
         </Bp>
       </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>OS_curr</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>OS_next</ItemText>
+        </Ww>
+      </WatchWindow1>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>2</SubType>
-          <ItemText>0x20000218</ItemText>
+          <ItemText>0xE000ED20</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -260,13 +260,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-<<<<<<< HEAD
       <PathWithFileName>.\bsp.c</PathWithFileName>
       <FilenameWithoutPath>bsp.c</FilenameWithoutPath>
-=======
-      <PathWithFileName>.\delay.c</PathWithFileName>
-      <FilenameWithoutPath>delay.c</FilenameWithoutPath>
->>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -277,13 +272,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-<<<<<<< HEAD
       <PathWithFileName>.\bsp.h</PathWithFileName>
       <FilenameWithoutPath>bsp.h</FilenameWithoutPath>
-=======
-      <PathWithFileName>.\tm4c_cmsis.h</PathWithFileName>
-      <FilenameWithoutPath>tm4c_cmsis.h</FilenameWithoutPath>
->>>>>>> 8b45a62e3b46b9746e69b7402b521be997450438
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -420,6 +410,38 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\CMSIS\Include\mpu_armv7.h</PathWithFileName>
       <FilenameWithoutPath>mpu_armv7.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>JoeRTOS</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>14</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\joertos.c</PathWithFileName>
+      <FilenameWithoutPath>joertos.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>15</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\joertos.h</PathWithFileName>
+      <FilenameWithoutPath>joertos.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
